@@ -1,0 +1,66 @@
+class ClothingItem:
+    def __init__(self, name, category, price, stock):
+        self.name = name
+        self.category = category
+        self.price = price
+        self.stock = stock
+
+    def __str__(self):
+        return f"{self.name} ({self.category}) - ${self.price}, Stock: {self.stock}"
+
+    def update_stock(self, quantity):
+        if self.stock + quantity < 0:
+            print(f"Not enough stock for {self.name}.")
+        else:
+            self.stock += quantity
+            print(f"Updated stock for {self.name}: {self.stock} items.")
+
+class ClothingStore:
+    def __init__(self):
+        self.inventory = {}
+
+    def add_item(self, clothing_item):
+        self.inventory[clothing_item.name] = clothing_item
+        print(f"Added {clothing_item.name} to inventory.")
+
+    def remove_item(self, name):
+        if name in self.inventory:
+            del self.inventory[name]
+            print(f"Removed {name} from inventory.")
+        else:
+            print(f"{name} not found in inventory.")
+
+    def update_item_stock(self, name, quantity):
+        if name in self.inventory:
+            self.inventory[name].update_stock(quantity)
+        else:
+            print(f"{name} not found in inventory.")
+
+    def view_inventory(self):
+        print("\nClothing Inventory:")
+        for item in self.inventory.values():
+            print(item)
+
+# Example usage
+store = ClothingStore()
+
+# Adding items to the inventory
+store.add_item(ClothingItem("Blue Jeans", "Pants", 29.99, 100))
+store.add_item(ClothingItem("T-Shirt", "Shirt", 15.99, 150))
+store.add_item(ClothingItem("Leather Jacket", "Jacket", 120.00, 50))
+
+# View all inventory
+store.view_inventory()
+
+# Update stock (e.g., selling some items)
+store.update_item_stock("T-Shirt", -10)
+store.update_item_stock("Leather Jacket", 20)
+
+# View updated inventory
+store.view_inventory()
+
+# Remove an item
+store.remove_item("Blue Jeans")
+
+# View updated inventory after removal
+store.view_inventory()
